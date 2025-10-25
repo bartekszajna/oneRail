@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+@layer base {
+  :root {
+    /* --dark-bg: #001524;
+    --light-bg: #003f60; */
+    --dark-bg: #212121;
+    --light-bg: #2d2d2d;
+  }
+
+  @theme {
+    --font-default: 'Lato', sans-serif;
+  }
+  html {
+    font-family: var(--font-default);
+    @apply text-gray-200 bg-[var(--light-bg)];
+  }
+
+  body {
+    @apply leading-relaxed min-h-screen;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+}
