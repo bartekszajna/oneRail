@@ -28,6 +28,7 @@ export default defineConfig([
     rules: {
       'prettier/prettier': 'warn',
       'no-console': 'warn',
+      // '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
 ]);
