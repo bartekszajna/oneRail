@@ -1,0 +1,1 @@
+import{u as i,j as s,L as r}from"./index-DbYfRmLr.js";const e=()=>{const{id:t}=i();return s.jsxs("div",{children:[s.jsxs("p",{children:["Hello product with id of ",t]}),s.jsxs(r,{to:"edit",children:["Edit ",t]})]})};export{e as default};
