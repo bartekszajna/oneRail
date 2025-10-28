@@ -18,15 +18,4 @@ export const ProductFormSchema = z.object({
   }),
 });
 
-export type ProductFormSchemaCopy = z.ZodObject<
-  {
-    title: z.ZodString;
-    description: z.ZodString;
-    price: z.ZodNumber;
-    categoryId: z.ZodNumber;
-    images: z.ZodArray<z.ZodString>;
-  },
-  z.core.$strip
->;
-
 export type ProductFormType = z.infer<typeof ProductFormSchema>;

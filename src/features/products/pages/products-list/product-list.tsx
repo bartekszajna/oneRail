@@ -3,11 +3,11 @@
 // import { useEffect, useState } from 'react';
 // import { API_BASE_URL } from '../../../../shared/utils/env';
 import { API_BASE_URL } from '@/shared/utils/env';
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 export const Products = () => {
-  const { data, isLoading, isFetching, error } = useQuery({
+  const { data, isLoading, isFetching, error } = useSuspenseQuery({
     queryKey: ['products'],
     queryFn: async () => {
       const res = await fetch(API_BASE_URL + '/products?offset=0&limit=10');
@@ -51,8 +51,9 @@ export const Products = () => {
 
   return (
     <main>
-      <div>
+      <div className='flex justify-between'>
         <Link to='/login'>GO TO LOGIN</Link>
+        <Link to='new'>Add new</Link>
       </div>
       <ul>
         {data?.map((p: { id: string; title: string; images: string[] }) => (

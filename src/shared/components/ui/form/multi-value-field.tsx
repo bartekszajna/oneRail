@@ -14,13 +14,13 @@ export function MultiValueField<T extends FieldValues>({
 }: MultiValueFieldProps<T>) {
   const [input, setInput] = useState('');
   const {
-    field: { value, onChange, ...fieldRest },
+    field: { value = [], onChange, ...fieldRest },
     fieldState,
   } = useController({ name, control });
 
   const handleAdd = () => {
     const trimmed = input.trim();
-    if (trimmed && !value.includes(trimmed)) {
+    if (trimmed && !(value as string[]).includes(trimmed)) {
       onChange([...value, trimmed]);
       setInput('');
     }

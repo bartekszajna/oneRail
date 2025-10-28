@@ -1,6 +1,6 @@
 // import { API_BASE_URL } from '@/shared/utils/env';
 // import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -13,5 +13,10 @@ export const ProductDetails = () => {
   //   },
   // });
 
-  return <div>Hello product with id of {id}!</div>;
+  return (
+    <div>
+      <p>Hello product with id of {id}</p>
+      <Link to='edit'>Edit {id}</Link>
+    </div>
+  );
 };

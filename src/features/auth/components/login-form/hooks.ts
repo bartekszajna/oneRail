@@ -2,7 +2,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { SignInFormSchema, type SignInFormType } from './models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '@/shared/utils/env';
+import { SignIn } from '../../api/api';
+import { setAccessToken, setRefreshToken } from '@/shared/utils/authStorage';
 
 export const useMethods = () => {
   const {
@@ -21,22 +22,17 @@ export const useMethods = () => {
   const navigate = useNavigate();
 
   const submitHandler: SubmitHandler<SignInFormType> = async (data) => {
-    const res = await fetch(API_BASE_URL + '/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    try {
+      const res = await SignIn(data);
+      setAccessToken(res.access_token);
+      setRefreshToken(res.refresh_token);
 
-    if (!res.ok) {
+      navigate('/products');
+    } catch {
       setError('root', {
         message: 'You could not be authorized',
       });
     }
-
-    // const responseData = await res.json();
-    navigate('/products');
   };
 
   return {
