@@ -3,11 +3,11 @@
 // import { useEffect, useState } from 'react';
 // import { API_BASE_URL } from '../../../../shared/utils/env';
 import { API_BASE_URL } from '@/shared/utils/env';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
 export const Products = () => {
-  const { data, isLoading, isFetching, error } = useSuspenseQuery({
+  const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ['products'],
     queryFn: async () => {
       const res = await fetch(API_BASE_URL + '/products?offset=0&limit=10');

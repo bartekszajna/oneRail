@@ -1,8 +1,9 @@
-import { getProducts } from '../../api/getProducts';
+import { getProducts } from './../../api/getProducts';
 import { queryClient } from '../../lib/queryClient';
 
-export const getProductsQuery = () =>
-  queryClient.prefetchQuery({
+export function getProductsQuery() {
+  return queryClient.ensureQueryData({
     queryKey: ['products'],
     queryFn: getProducts,
   });
+}

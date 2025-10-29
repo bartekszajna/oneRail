@@ -1,11 +1,19 @@
 import { deleteAccessToken, deleteRefreshToken } from '@/shared/utils/authStorage';
+import { useIsFetching } from '@tanstack/react-query';
 import { LogOut, Store } from 'lucide-react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import Loader from '../ui/loader/loader';
+import { Link, Outlet, useNavigate, useNavigation } from 'react-router-dom';
 
-export const Layout = () => {
+export function MainLayout() {
   const navigate = useNavigate();
+  const fetchingCount = useIsFetching();
+  const navigation = useNavigation();
+
+  const isLoading =
+    navigation.state === 'loading' || navigation.state === 'submitting' || fetchingCount > 0;
+
   return (
-    <main>
+    <main className='relative'>
       <nav className='bg-[var(--dark-bg)] text-white fixed p-4 w-full z-10 flex flex-row gap-4 h-[70px] items-center justify-between shadow-xl'>
         <Link
           to='/products'
@@ -27,9 +35,11 @@ export const Layout = () => {
           <span className='hidden sm:inline'>Sign out</span>
         </Link>
       </nav>
-      <section className='pt-24'>
+      <section className='pt-24 px-8 relative'>
+        <Loader isLoading={isLoading} />
+
         <Outlet />
       </section>
     </main>
   );
-};
+}

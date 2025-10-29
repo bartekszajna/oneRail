@@ -1,9 +1,8 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { LoginFormSchema, type LoginFormType } from './models';
+import { SignupFormSchema, type SignupFormType } from './models';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useNavigation } from 'react-router-dom';
-import { signIn } from '../../api/api';
-import { setAccessToken, setRefreshToken } from '@/shared/utils/authStorage';
+import { signUp } from '../../api/api';
 
 export const useMethods = () => {
   const {
@@ -11,12 +10,15 @@ export const useMethods = () => {
     setError,
     control,
     formState: { errors, isSubmitting: isFormSubmitting },
-  } = useForm<LoginFormType>({
+  } = useForm<SignupFormType>({
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      repeat_password: '',
+      avatar: '',
     },
-    resolver: zodResolver(LoginFormSchema),
+    resolver: zodResolver(SignupFormSchema),
   });
 
   const navigate = useNavigate();
@@ -25,16 +27,13 @@ export const useMethods = () => {
   const isLoading =
     navigation.state === 'loading' || navigation.state === 'submitting' || isFormSubmitting;
 
-  const submitHandler: SubmitHandler<LoginFormType> = async (data) => {
+  const submitHandler: SubmitHandler<SignupFormType> = async (data) => {
     try {
-      const res = await signIn(data);
-      setAccessToken(res.access_token);
-      setRefreshToken(res.refresh_token);
-
-      navigate('/products');
+      await signUp(data);
+      navigate('/login');
     } catch {
       setError('root', {
-        message: 'You could not be authorized',
+        message: 'New user could not be created',
       });
     }
   };

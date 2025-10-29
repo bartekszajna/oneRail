@@ -1,18 +1,17 @@
 import { createHashRouter, Navigate, redirect } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
-import { API_BASE_URL } from '@shared/utils/env';
+import { lazy } from 'react';
 import { getAccessToken } from '@shared/utils/authStorage';
-import type { Categories, Products } from '../features/products/api/models';
-import { api } from '../api/axiosClient';
-import { queryClient } from '@/lib/queryClient';
-import { protectedLoader, getProductsQuery, getCategoriesQuery } from './loaders';
+import type { Products } from '../features/products/api/models';
+
+import { protectedLoader, getProductsQuery, getCategoriesQuery, getProductQuery } from './loaders';
 
 const Login = lazy(() => import('../features/auth/pages/login'));
+const Signup = lazy(() => import('../features/auth/pages/signup'));
 const Products = lazy(() => import('../features/products/pages/products-list'));
 const ProductDetails = lazy(() => import('../features/products/pages/product-details'));
 const ProductEdit = lazy(() => import('../features/products/pages/product-edit'));
 const ProductCreate = lazy(() => import('../features/products/pages/product-create'));
-const Layout = lazy(() => import('@shared/components/layout'));
+const MainLayout = lazy(() => import('@/shared/components/main-layout'));
 
 export const router = createHashRouter([
   {
@@ -20,16 +19,16 @@ export const router = createHashRouter([
     element: <Navigate to='/login' replace />,
   },
   {
-    path: '/login',
-    element: (
-      <Suspense fallback={<div>Ładowanie strony XD...</div>}>
-        <Login />
-      </Suspense>
-    ),
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: 'signup',
+    element: <Signup />,
   },
   {
     path: 'products',
-    element: <Layout />,
+    element: <MainLayout />,
     loader: () => {
       if (!getAccessToken()) {
         throw redirect('/login');
@@ -38,16 +37,7 @@ export const router = createHashRouter([
     children: [
       {
         path: 'new',
-        loader: () => {
-          return queryClient.ensureQueryData({
-            queryKey: ['categories'],
-            queryFn: async () => {
-              const res = await api.get<Categories>('/categories/');
-              return res.data;
-            },
-            // gcTime: 5000,
-          });
-        },
+        loader: protectedLoader(getCategoriesQuery),
         element: <ProductCreate />,
       },
       {
@@ -57,26 +47,14 @@ export const router = createHashRouter([
       },
       {
         path: ':id',
-        loader: ({ params }) => {
-          return queryClient.ensureQueryData({
-            queryKey: ['products', params.id],
-            queryFn: async () => {
-              const res = await fetch(API_BASE_URL + '/products/' + params.id);
-              return await res.json();
-            },
-            // gcTime: 5000,
-          });
-        },
+        loader: protectedLoader(getProductQuery),
         element: <ProductDetails />,
+        errorElement: <h1 className='text-4xl'>Wrong id</h1>,
       },
       {
         index: true,
         loader: protectedLoader(getProductsQuery),
-        element: (
-          <Suspense fallback={<div>Ładowanie produktów...</div>}>
-            <Products />
-          </Suspense>
-        ),
+        element: <Products />,
       },
     ],
   },

@@ -11,7 +11,7 @@ export function getRefreshToken() {
 }
 
 export function setRefreshToken(refresh_token: string) {
-  return sessionStorage.setItem('access_token', refresh_token);
+  return sessionStorage.setItem('refresh_token', refresh_token);
 }
 
 export function deleteAccessToken() {
