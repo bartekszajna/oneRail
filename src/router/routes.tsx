@@ -1,9 +1,10 @@
 import { createHashRouter, Navigate, redirect } from 'react-router-dom';
 import { lazy } from 'react';
-import { getAccessToken } from '@shared/utils/authStorage';
+import { deleteAccessToken, getAccessToken } from '@shared/utils/authStorage';
 import type { Products } from '../features/products/api/models';
 
 import { protectedLoader, getProductsQuery, getCategoriesQuery, getProductQuery } from './loaders';
+import { checkAuthenticatedStatus } from '@/features/auth/api/api';
 
 const Login = lazy(() => import('../features/auth/pages/login'));
 const Signup = lazy(() => import('../features/auth/pages/signup'));
@@ -11,29 +12,59 @@ const Products = lazy(() => import('../features/products/pages/products-list'));
 const ProductDetails = lazy(() => import('../features/products/pages/product-details'));
 const ProductEdit = lazy(() => import('../features/products/pages/product-edit'));
 const ProductCreate = lazy(() => import('../features/products/pages/product-create'));
-const MainLayout = lazy(() => import('@/shared/components/main-layout'));
+const NotAuthenticatedLayout = lazy(() => import('@/shared/components/layouts/not-authenticated-layout'));
+const AuthenticatedLayout = lazy(() => import('@/shared/components/layouts/authenticated-layout'));
 
 export const router = createHashRouter([
   {
     path: '/',
-    element: <Navigate to='/login' replace />,
+    element: <NotAuthenticatedLayout/>,
+    loader: async ({ request }) => {
+      const url = new URL(request.url);
+      const pathname = url.hash.replace('#', '') || '/';
+      const token = getAccessToken();
+
+      if (token) {
+        try {
+          await checkAuthenticatedStatus();
+          if (pathname === '/') {
+            return redirect('/products');
+          }
+        } catch {
+          deleteAccessToken();
+          if (pathname !== '/login' && pathname !== '/signup') {
+            return redirect('/login');
+          }
+        }
+      }
+      return null;
+    },
+    children: [
+      {
+        index: true,
+        element: <Navigate to="login" replace />
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
+      },
+    ]
   },
-  {
-    path: 'login',
-    element: <Login />,
-  },
-  {
-    path: 'signup',
-    element: <Signup />,
-  },
+  
   {
     path: 'products',
-    element: <MainLayout />,
-    loader: () => {
-      if (!getAccessToken()) {
-        throw redirect('/login');
-      }
-    },
+    element: <AuthenticatedLayout />,
+    // loader: () => {
+    //   if (!getAccessToken()) {
+    //     throw redirect('/login');
+    //   }
+    // },
+
+    
     children: [
       {
         path: 'new',

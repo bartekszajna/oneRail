@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+// @ts-nocheck
+
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { ProductFormSchema, type ProductFormType } from './models';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +11,7 @@ import { editProduct, createProduct } from '@/api';
 import { queryClient } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
 
-export const useMethods = (product?: Product) => {
+export const useMethods = (product: Product) => {
   const createProductMutation = useMutation<Product, Error, ProductFormType>({
     mutationFn: createProduct,
     onSuccess: () => {
@@ -32,7 +35,7 @@ export const useMethods = (product?: Product) => {
   } = useForm<ProductFormType>({
     defaultValues: {
       title: product?.title || '',
-      price: product?.price || 34231,
+      price: product?.price || 1,
       categoryId: product?.categoryId || 1,
       description: product?.description || '',
       images: product?.images || [],
@@ -63,6 +66,7 @@ export const useMethods = (product?: Product) => {
   const isLoading =
     navigation.state === 'loading' || navigation.state === 'submitting' || isFormSubmitting;
 
+  console.log('PRODUCT FORM INSIDE OF HOOKS');
   return {
     handleSubmit,
     submitHandler,

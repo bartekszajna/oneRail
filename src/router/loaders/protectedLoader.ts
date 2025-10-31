@@ -18,14 +18,3 @@ export function protectedLoader(loaderFn: (args: LoaderFunctionArgs) => Promise<
     return loaderFn(args);
   };
 }
-// export function protectedLoader<T>(queryKey: any[], queryFn: () => Promise<T>) {
-//   return async () => {
-//     const token = getAccessToken();
-//     if (!token) throw redirect('/login');
-
-//     return queryClient.ensureQueryData({
-//       queryKey,
-//       queryFn,
-//     });
-//   };
-// }

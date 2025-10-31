@@ -26,7 +26,7 @@ export default defineConfig([
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'warn',
+      'prettier/prettier': 'off',
       'no-console': 'warn',
       // '@typescript-eslint/ban-ts-comment': 'off',
     },

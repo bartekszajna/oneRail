@@ -17,7 +17,7 @@ export const ProductDetails = () => {
         <h1>Product details</h1>
         <Link
           to='edit'
-          className='bg-gray-200 px-3 py-1 text-xs md:px-6 md:py-2 rounded-full font-semibold text-gray-900 hover:bg-amber-500 hover:text-gray-200 transition-transform active:scale-95'
+          className='bg-gray-200 px-3 py-1 text-xs md:px-6 md:py-2 rounded-full font-semibold text-gray-900 hover:bg-amber-500 hover:text-gray-200 transition-all active:scale-95'
         >
           Edit product
         </Link>

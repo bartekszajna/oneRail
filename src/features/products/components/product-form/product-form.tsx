@@ -17,8 +17,10 @@ type ProductFormProps = {
 };
 
 export const ProductForm = ({ product, categories }: ProductFormProps) => {
+  console.log("PRODUCT FORM BEFORE HOOKS")
   const { handleSubmit, submitHandler, control, isSubmitting, errors } = useMethods(product);
-
+  console.log("PRODUCT FORM AFTER HOOKS")
+  
   return (
     <Form onSubmit={handleSubmit(submitHandler)} isSubmitting={isSubmitting}>
       <TextField<ProductFormType> label='Title' name='title' control={control} />

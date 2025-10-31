@@ -3,7 +3,7 @@ import { type FormProps } from './models';
 export function Form({ children, onSubmit, isSubmitting }: FormProps) {
   return (
     <form
-      className='w-[80%] mx-auto md:w-[600px] bg-[var(--dark-bg)] flex flex-col gap-2 sm:gap-6 px-8 py-12 sm:px-12 rounded-2xl shadow-2xl items-stretch'
+      className='w-full mx-auto md:w-[600px] bg-[var(--dark-bg)] flex flex-col gap-2 sm:gap-6 px-8 py-12 sm:px-12 rounded-2xl shadow-2xl items-stretch'
       onSubmit={onSubmit}
     >
       {children}
