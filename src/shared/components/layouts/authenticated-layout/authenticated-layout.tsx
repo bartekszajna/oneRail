@@ -13,7 +13,7 @@ export function AuthenticatedLayout() {
   return (
     <>
     <Navigation />
-    <main className='pt-24 px-8 relative'>
+    <main className='pt-24 px-8 pb-8 relative'>
         <Loader isLoading={isLoading} />
         <Outlet />
     </main>

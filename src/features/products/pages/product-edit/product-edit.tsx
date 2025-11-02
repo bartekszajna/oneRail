@@ -8,7 +8,7 @@ export const ProductEdit = () => {
   const { id } = useParams();
   const { data: product } = useQuery<Product>({
     queryKey: ['products', id],
-    queryFn: () => getProduct(id!),
+    queryFn: () => getProduct(Number(id)),
   });
 
   const { data: categories } = useQuery<Categories>({
@@ -16,11 +16,10 @@ export const ProductEdit = () => {
     queryFn: getCategories,
   });
 
-  console.log(product, categories);
   return (
     <div className='flex flex-col gap-8 justify-center items-center mb-20'>
       <h1>Edit product</h1>
-      <ProductForm categories={categories} product={product} />
+      {categories && product && <ProductForm categories={categories} product={product} />}
     </div>
   );
 };

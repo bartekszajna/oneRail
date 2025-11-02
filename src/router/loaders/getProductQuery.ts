@@ -5,5 +5,5 @@ import type { LoaderFunctionArgs } from 'react-router-dom';
 export const getProductQuery = ({ params }: LoaderFunctionArgs) =>
   queryClient.ensureQueryData({
     queryKey: ['products', params.id],
-    queryFn: () => getProduct(params.id!),
+    queryFn: () => getProduct(Number(params.id)),
   });

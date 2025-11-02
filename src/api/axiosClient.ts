@@ -9,26 +9,6 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
-// interface Entity {
-//   id: string;
-//   title: string;
-// }
-
-// function mapEntitiesToMap(
-//   entities: Entity[]
-// ): Map<Entity['id'], { relative: number; absolute: string }> {
-//   const m = new Map();
-
-//   for (const entity of entities) {
-//     m.set(entity.id, { relative: 1, absolute: '1' });
-//   }
-//   return m;
-// }
-
-// type FunctionType = typeof mapEntitiesToMap;
-
-// console.log(mapEntitiesToMap([{ id: 'dfdsf', title: 'fsdfsgs' }]));
-
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const access = getAccessToken();
   if (access) {

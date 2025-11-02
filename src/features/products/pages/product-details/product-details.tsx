@@ -8,7 +8,7 @@ export const ProductDetails = () => {
 
   const { data: product } = useQuery({
     queryKey: ['products', id],
-    queryFn: () => getProduct(id!),
+    queryFn: () => getProduct(Number(id)),
   });
 
   return (

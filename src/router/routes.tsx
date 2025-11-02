@@ -58,11 +58,7 @@ export const router = createHashRouter([
   {
     path: 'products',
     element: <AuthenticatedLayout />,
-    // loader: () => {
-    //   if (!getAccessToken()) {
-    //     throw redirect('/login');
-    //   }
-    // },
+    // loader: protectedLoader(),
 
     
     children: [

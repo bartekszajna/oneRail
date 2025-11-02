@@ -3,7 +3,6 @@
 import { Form } from '@/shared/components/ui/form/form';
 import { TextAreaField } from '@/shared/components/ui/form/textarea-field';
 
-import { type ProductFormType } from './models';
 import { TextField } from '@/shared/components/ui/form';
 
 import { SelectField } from '@/shared/components/ui/form/select-field';
@@ -17,14 +16,12 @@ type ProductFormProps = {
 };
 
 export const ProductForm = ({ product, categories }: ProductFormProps) => {
-  console.log("PRODUCT FORM BEFORE HOOKS")
   const { handleSubmit, submitHandler, control, isSubmitting, errors } = useMethods(product);
-  console.log("PRODUCT FORM AFTER HOOKS")
   
   return (
     <Form onSubmit={handleSubmit(submitHandler)} isSubmitting={isSubmitting}>
-      <TextField<ProductFormType> label='Title' name='title' control={control} />
-      <TextField<ProductFormType> label='Price' name='price' control={control} />
+      <TextField label='Title' name='title' control={control} />
+      <TextField label='Price' name='price' control={control} />
       <TextAreaField label='Description' name='description' control={control} rows={7} />
       <SelectField label='Category' name='categoryId' control={control} options={categories} />
       <MultiValueField label='Images' name='images' control={control} />

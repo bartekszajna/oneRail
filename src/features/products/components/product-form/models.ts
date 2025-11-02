@@ -5,7 +5,7 @@ export const ProductFormSchema = z.object({
   title: z.string().min(1, { error: 'Field cannot be empty' }),
   description: z.string().min(1, { error: 'Field cannot be empty' }),
   price: z.coerce.number().int().min(1).max(9999),
-  categoryId: z.number().int().min(1),
+  categoryId: z.coerce.number().int().min(1),
   images: z.array(z.string()).superRefine((arr, ctx) => {
     const invalid = arr.filter((url) => !isValidUrl(url));
     if (invalid.length > 0 || !arr.length) {

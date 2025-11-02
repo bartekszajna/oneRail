@@ -5,9 +5,9 @@ import type { InputFieldProps } from '@shared/components/ui/form';
 export function PasswordField<T extends FieldValues>({
   name,
   control,
-  ...rest
+  ...props
 }: InputFieldProps<T>) {
   const { field, fieldState } = useController({ name, control });
 
-  return <PasswordInput {...field} {...rest} error={fieldState.error?.message} />;
+  return <PasswordInput {...field} {...props} error={fieldState.error?.message} />;
 }

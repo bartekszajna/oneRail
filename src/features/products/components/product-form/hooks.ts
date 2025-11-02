@@ -45,16 +45,16 @@ export const useMethods = (product: Product) => {
 
   const submitHandler: SubmitHandler<ProductFormType> = async (data) => {
     try {
-      if (product?.id) {
-        editProductMutation.mutate(product.id, data);
+      if (product.id) {
+        await editProductMutation.mutateAsync({ id: product.id, data });
       } else {
-        await createProductMutation.mutate(data);
+        await createProductMutation.mutateAsync(data);
       }
 
       queryClient.invalidateQueries();
     } catch {
       setError('root', {
-        message: product?.id
+        message: product.id
           ? 'The product could not be updated'
           : 'The product could not be created',
       });
@@ -66,7 +66,6 @@ export const useMethods = (product: Product) => {
   const isLoading =
     navigation.state === 'loading' || navigation.state === 'submitting' || isFormSubmitting;
 
-  console.log('PRODUCT FORM INSIDE OF HOOKS');
   return {
     handleSubmit,
     submitHandler,
