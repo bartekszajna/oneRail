@@ -3,16 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import { ProductForm } from '../../components/product-form/product-form';
 import { type Product, type Categories } from '../../api/models';
 import { getCategories, getProduct } from '@/api';
+import { QUERY_KEYS } from "@/router/models"
 
 export const ProductEdit = () => {
   const { id } = useParams();
   const { data: product } = useQuery<Product>({
-    queryKey: ['products', id],
+    queryKey: [QUERY_KEYS.PRODUCTS, id],
     queryFn: () => getProduct(Number(id)),
   });
 
   const { data: categories } = useQuery<Categories>({
-    queryKey: ['categories'],
+    queryKey: [QUERY_KEYS.CATEGORIES],
     queryFn: getCategories,
   });
 

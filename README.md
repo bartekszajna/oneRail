@@ -1,69 +1,23 @@
-# React + TypeScript + Vite
+# oneRail e-commerce
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the recruitment process task. The live version is available here:
+[Github pages](https://bartekszajna.github.io/oneRail)
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run the project
 
-## Expanding the ESLint configuration
+Make sure you have the Node version +22.12.0.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Run the commands below:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+yarn
+yarn dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Two important notes:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Due to the API restrictions I had to store the JWT tokens in sessionStorage. It is generally perceived as a bad practice due to possible XSS attacks. In typical flow the access_token would be stored in-memory, and refresh_token should be kept in httpOnly, Secure cookie with Path and Domain restricting it only to the `/refresh-token` endpoint
+2. The API has a significant architectural issue with refresh token lifecycle time shorter (10 hours) than the access token (20 days). Because of that I decided not to implement the refresh token flow, since basically there is no option that refresh token would still be valid at the time when access token expired.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+If you have any questions I would love to discuss all the technical decisions and trade-offs I've made during the development process. The app however is not finished and still requires some refactors as well as inputs debouncing or unit&integration test coverage.

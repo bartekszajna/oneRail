@@ -1,9 +1,0 @@
-// export const tokenStore = {
-//   accessToken: null,
-//   setToken(token: string) {
-//     this.accessToken = token;
-//   },
-//   getToken() {
-//     return this.accessToken;
-//   },
-// };

@@ -3,10 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { ProductForm } from '../../components/product-form';
 import { type Categories } from '../../api/models';
 import { getCategories } from '@/api';
+import { QUERY_KEYS } from "@/router/models"
 
 export const ProductCreate = () => {
     const { data: categories } = useQuery<Categories>({
-      queryKey: ['categories'],
+      queryKey: [QUERY_KEYS.CATEGORIES],
       queryFn: getCategories,
     });
 

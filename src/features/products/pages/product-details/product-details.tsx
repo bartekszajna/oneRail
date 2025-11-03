@@ -2,14 +2,19 @@
 import { getProduct } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useParams } from 'react-router-dom';
+import { QUERY_KEYS } from '@/router/models'
 
 export const ProductDetails = () => {
   const { id } = useParams();
 
-  const { data: product } = useQuery({
-    queryKey: ['products', id],
+  const { data: product, isError } = useQuery({
+    queryKey: [QUERY_KEYS.PRODUCTS, id],
     queryFn: () => getProduct(Number(id)),
   });
+
+  if(isError){
+    return <p>EROR</p>
+  }
 
   return (
     <article>

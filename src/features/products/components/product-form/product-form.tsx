@@ -2,18 +2,11 @@
 // @ts-nocheck
 import { Form } from '@/shared/components/ui/form/form';
 import { TextAreaField } from '@/shared/components/ui/form/textarea-field';
-
 import { TextField } from '@/shared/components/ui/form';
-
 import { SelectField } from '@/shared/components/ui/form/select-field';
-import type { Categories, Product } from '../../api/models';
 import { MultiValueField } from '@/shared/components/ui/form/multi-value-field';
 import { useMethods } from './hooks';
-
-type ProductFormProps = {
-  product?: Product;
-  categories: Categories;
-};
+import type { ProductFormProps } from './models';
 
 export const ProductForm = ({ product, categories }: ProductFormProps) => {
   const { handleSubmit, submitHandler, control, isSubmitting, errors } = useMethods(product);

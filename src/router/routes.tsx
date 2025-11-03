@@ -1,92 +1,72 @@
-import { createHashRouter, Navigate, redirect } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { lazy } from 'react';
-import { deleteAccessToken, getAccessToken } from '@shared/utils/authStorage';
-import type { Products } from '../features/products/api/models';
+import { ROUTES } from "./models"
+import { protectedLoader, getProductsQuery, getCategoriesQuery, getProductQuery, notAuthenticatedLoader } from './loaders';
 
-import { protectedLoader, getProductsQuery, getCategoriesQuery, getProductQuery } from './loaders';
-import { checkAuthenticatedStatus } from '@/features/auth/api/api';
 
 const Login = lazy(() => import('../features/auth/pages/login'));
 const Signup = lazy(() => import('../features/auth/pages/signup'));
-const Products = lazy(() => import('../features/products/pages/products-list'));
+const ProductsList = lazy(() => import('../features/products/pages/products-list'));
 const ProductDetails = lazy(() => import('../features/products/pages/product-details'));
 const ProductEdit = lazy(() => import('../features/products/pages/product-edit'));
 const ProductCreate = lazy(() => import('../features/products/pages/product-create'));
+const NotFound = lazy(() => import('../features/not-found/'));
 const NotAuthenticatedLayout = lazy(() => import('@/shared/components/layouts/not-authenticated-layout'));
 const AuthenticatedLayout = lazy(() => import('@/shared/components/layouts/authenticated-layout'));
 
 export const router = createHashRouter([
   {
-    path: '/',
+    path: ROUTES.ROOT,
     element: <NotAuthenticatedLayout/>,
-    loader: async ({ request }) => {
-      const url = new URL(request.url);
-      const pathname = url.hash.replace('#', '') || '/';
-      const token = getAccessToken();
-
-      if (token) {
-        try {
-          await checkAuthenticatedStatus();
-          if (pathname === '/') {
-            return redirect('/products');
-          }
-        } catch {
-          deleteAccessToken();
-          if (pathname !== '/login' && pathname !== '/signup') {
-            return redirect('/login');
-          }
-        }
-      }
-      return null;
-    },
+    loader: notAuthenticatedLoader,
     children: [
       {
         index: true,
-        element: <Navigate to="login" replace />
+        element: <Navigate to={ROUTES.LOGIN} replace />
       },
       {
-        path: 'login',
+        path: ROUTES.LOGIN,
         element: <Login />,
       },
       {
-        path: 'signup',
+        path: ROUTES.SIGNUP,
         element: <Signup />,
       },
     ]
   },
   
   {
-    path: 'products',
-    element: <AuthenticatedLayout />,
-    // loader: protectedLoader(),
-
-    
+    path: ROUTES.PRODUCTS,
+    element: <AuthenticatedLayout />,    
     children: [
       {
-        path: 'new',
+        path: ROUTES.NEW,
         loader: protectedLoader(getCategoriesQuery),
         element: <ProductCreate />,
       },
       {
-        path: ':id/edit',
+        path: ROUTES.EDIT,
         loader: protectedLoader(getCategoriesQuery),
         element: <ProductEdit />,
       },
       {
-        path: ':id',
+        path: ROUTES.DETAILS,
         loader: protectedLoader(getProductQuery),
         element: <ProductDetails />,
-        errorElement: <h1 className='text-4xl'>Wrong id</h1>,
       },
       {
         index: true,
         loader: protectedLoader(getProductsQuery),
-        element: <Products />,
+        element: <ProductsList />,
       },
     ],
   },
   {
-    path: '*',
-    element: <h1>NOT FOUND!</h1>,
+    path: ROUTES.ERROR,
+    element: <NotFound />,
+  },
+  {
+    path: "*",
+    element: <Navigate to={ROUTES.ERROR} />,
   },
 ]);

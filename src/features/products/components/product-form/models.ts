@@ -1,5 +1,6 @@
 import z from 'zod';
 import { isValidUrl } from '@/shared/utils/isValidURL';
+import type { Categories, Product } from '../../api/models';
 
 export const ProductFormSchema = z.object({
   title: z.string().min(1, { error: 'Field cannot be empty' }),
@@ -19,3 +20,8 @@ export const ProductFormSchema = z.object({
 });
 
 export type ProductFormType = z.infer<typeof ProductFormSchema>;
+
+export type ProductFormProps = {
+  product?: Product;
+  categories: Categories;
+};

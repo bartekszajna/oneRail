@@ -6,6 +6,7 @@
     --light-bg: #003f60; */
     --dark-bg: #212121;
     --light-bg: #2d2d2d;
+    --toastify-color-dark: #212121 !important;
   }
 
   @theme {

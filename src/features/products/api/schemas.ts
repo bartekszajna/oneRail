@@ -14,8 +14,7 @@ export const ProductSchema = z.object({
   title: z.string(),
   price: z.number().int().positive(),
   description: z.string(),
-  category: z.string(),
-  categoryId: z.number().int().positive(),
+  category: CategorySchema,
   slug: z.string(),
   images: z.array(z.url()),
 });
