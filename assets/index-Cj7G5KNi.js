@@ -1,4 +1,4 @@
-import{f as l,r as o,gk as d,j as e,u,L as c,gy as x,gz as h,a as p,gx as m}from"./index-DYuqXGVB.js";import{c as n}from"./createLucideIcon-BImb0yJG.js";function g(t,a){const s=l(),i=s.getQueryCache();return o.useSyncExternalStore(o.useCallback(r=>i.subscribe(d.batchCalls(r)),[i]),()=>s.isFetching(t),()=>s.isFetching(t))}/**
+import{f as l,r as o,gk as d,j as e,u,L as c,gy as x,gz as h,a as p,gx as m}from"./index-B4Yr9dN7.js";import{c as n}from"./createLucideIcon-BSBTvFab.js";function g(t,a){const s=l(),i=s.getQueryCache();return o.useSyncExternalStore(o.useCallback(r=>i.subscribe(d.batchCalls(r)),[i]),()=>s.isFetching(t),()=>s.isFetching(t))}/**
  * @license lucide-react v0.548.0 - ISC
  *
  * This source code is licensed under the ISC license.
